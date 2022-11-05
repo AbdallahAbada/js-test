@@ -1,0 +1,44 @@
+[
+  {
+    "firstname": "Abdallah",
+    "lastname": "Abada",
+    "age": 28,
+    "address": "Cambridge"
+  },
+  {
+    "firstname": "Jakob",
+    "lastname": "Abada",
+    "age": 32,
+    "address": "Cambridge"
+  },
+  {
+    "firstname": "Sara",
+    "lastname": "Abada",
+    "age": 31,
+    "address": "Tanta"
+  },
+  {
+    "firstname": "Mariam",
+    "lastname": "El-swasani",
+    "age": 7,
+    "address": "Tanta"
+  },
+  {
+    "firstnam e": "Looka",
+    "lastname": "Soliman",
+    "age": 29,
+    "address": "Cairo"
+  },
+  {
+    "firstname": "Zienab",
+    "lastname": "Abada",
+    "age": 46,
+    "address": "Cairo"
+  },
+  {
+    "firstname": "Mahmoud",
+    "lastname": "Soliman",
+    "age": 32,
+    "address": "Cairo"
+  }
+]
