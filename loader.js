@@ -1,7 +1,9 @@
+// HERE WE FITCH THE DATA FILE IN JAVASCRIPT
 fetch("family.json")
     .then(function (family) {
         return family.json()
     })
+    // HERE WE USE TO APPEND EVERY SINGLE DATA REPETLY INTO A TABLE ROWS
     .then(function (familyMembers) {
         let placeHolder = document.querySelector("#data-output");
         let out = '';
@@ -16,36 +18,30 @@ fetch("family.json")
                 </tr>
                `;
         }
+
         placeHolder.innerHTML = out;
 
-        const button = document.getElementById('last')
+        const highlightBtn = document.querySelector('#highlight')
         const tableRow = document.querySelectorAll('tr')
         const tableCell = document.querySelectorAll('td')
 
-        // Just for testing
-        // console.log(placeHolder.children[1])
-        // console.log(tableRow[1].children[0])
 
-        // //////////////////////////
 
-        button.addEventListener('click', function sortAge() {
+        // HIGHLIGHT THE FAMILY MEMBER THAT OVER 3O YEARS OLD
+        highlightBtn.addEventListener('click', function sortAge() {
             const age = document.querySelectorAll('.age')
             for (let i = 0; i < tableRow.length - 1; i++) {
-                if (age[i].innerHTML >= 30) {
-                    placeHolder.children[i].style.backgroundColor = 'orange'
-                    // placeHolder.children[i].style.color = 'white'
+                if (age[i].innerHTML > 30) {
+                    placeHolder.children[i].style.backgroundColor = '#FFA500'
                 }
             }
         })
 
-        // Split the full name
-        const fullName = tableRow[1].children[0].innerText;
-        const [first, last] = fullName.split(' ');
-        console.log(last)
-
-        firstBtn = document.querySelector("#first")
-        firstBtn.addEventListener('click', function sortTable() {
-            let table, rows, switching, e, x, y, shouldSwitch;
+        // SORT BY LAST NAME
+        let sortBtn = document.querySelector("#sort")
+        sortBtn.addEventListener('click', function sortTable() {
+            // placeHolder.innerHTML = out;
+            let table, rows, switching, r, currentRow, nextRow, shouldSwitch;
             table = document.getElementById("myTable");
             switching = true;
             /*Make a loop that will continue until
@@ -56,15 +52,15 @@ fetch("family.json")
                 rows = table.rows;
                 /*Loop through all table rows (except the
                 first, which contains table headers):*/
-                for (e = 1; e < (rows.length - 1); e++) {
+                for (r = 1; r < (rows.length - 1); r++) {
                     //start by saying there should be no switching:
                     shouldSwitch = false;
                     /*Get the two elements you want to compare,
                     one from current row and one from the next:*/
-                    x = rows[e].getElementsByTagName("td")[1];
-                    y = rows[e + 1].getElementsByTagName("td")[1];
+                    currentRow = rows[r].getElementsByTagName("td")[1];
+                    nextRow = rows[r + 1].getElementsByTagName("td")[1];
                     //check if the two rows should switch place:
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    if (currentRow.innerHTML.toLowerCase() > nextRow.innerHTML.toLowerCase()) {
                         //if so, mark as a switch and break the loop:
                         shouldSwitch = true;
                         break;
@@ -73,12 +69,24 @@ fetch("family.json")
                 if (shouldSwitch) {
                     /*If a switch has been marked, make the switch
                     and mark that a switch has been done:*/
-                    rows[e].parentNode.insertBefore(rows[e + 1], rows[e]);
+                    rows[r].parentNode.insertBefore(rows[r + 1], rows[r]);
                     switching = true;
                 }
             }
         })
+        // RESETTING TO THE DEFAULT TABLE
+        let reset = document.querySelector('#reset')
+        reset.addEventListener('click', function () {
+            placeHolder.innerHTML = out;
+        })
+
+        // create a form under the table. It has firstname, lastname, age, address. When I submit it, It adds to the table
+        // I need appen the form input to a new row
+
         // FORM USER INPUT
+
+
+        submitBtn = document.getElementById('submit');
         const form = document.getElementById('form')
         form.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -90,39 +98,33 @@ fetch("family.json")
             console.log(age);
             let address = document.getElementById('addressInput').value;
             console.log(address)
+            let managedTable = document.getElementById('myTable');
+            let newRow = managedTable.insertRow(managedTable.length);
+            let cell1 = newRow.insertCell(0);
+            let cell2 = newRow.insertCell(1);
+            let cell3 = newRow.insertCell(2);
+            if (age.innerHTML > 30) {
+                newRow.style.backgroundColor = '#FFA500'
+            }
+            cell1.innerHTML = fullName;
+            cell2.innerHTML = age;
+            cell3.innerHTML = address;
         })
-        let reset = document.querySelectorAll('#submit')
-        console.log(reset)
-        reset.addEventListener('click', function () {
-            console.log('hey')
-            // placeHolder.innerHTML = out;
-        })
-        // KNOW THE POSITION FOR EACH CELL
-        // let tableCellPosition = document.querySelector('.tab'), rIndex, cIndex;
-        // // LOOP THROUGHT EACH ROW
-        // console.log(tableCellPosition.rows.length)
-
-        // for (let r = 0; r < tableCellPosition.rows.length; r++) {
-        //     // LOOP THROUGHT CELL IN EACH ROW 
-        //     for (let c = 0; c < tableCellPosition.rows[r].cells.length; c++) {
-        //         tableCellPosition.rows[r].cells[c].onClick = function () {
-        //             rIndex = this.parentElement.rowIndex;
-        //             console.log(rIndex);
-        //         };
-        //     }
-        // }
-        // var table = document.getElementById("table"), rIndex, cIndex;
-
-        // // table rows
-        // for (var i = 1; i < table.rows.length; i++) {
-        //     // row cells
-        //     for (var j = 0; j < table.rows[i].cells.length; j++) {
-        //         table.rows[i].cells[j].onclick = function () {
-        //             rIndex = this.parentElement.rowIndex;
-        //             cIndex = this.cellIndex + 1;
-        //             console.log("Row : " + rIndex + " , Cell : " + cIndex);
-        //         };
-        //     }
-        // }
     })
 
+// function addTableRow() {
+//     let managedTable = document.getElementById('myTable');
+//     let newRow = managedTable.insertRow(managedTable.rows.length);
+//     let cell1 = newRow.insertCell(0),
+//         cell2 = newRow.insertCell(1),
+//         cell3 = newRow.insertCell(2),
+//         firstName = document.getElementById('firstNameInput').value,
+//         lastName = document.getElementById('lastNameInput').value,
+//         fullName = `${firstName} ${lastName}`,
+//         age = document.getElementById('age').value,
+//         address = document.getElementById('address').value;
+//     cell1.innerHTML = fullName;
+//     console.log(fullName)
+//     cell2.innerHTML = age;
+//     cell3.innerHTML = address;
+// }
