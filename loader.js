@@ -13,35 +13,21 @@ fetch("family.json")
                 <tr>
                     <td>${member.firstname} ${member.lastname}</td>
                     <td style = 'display : none;'>${member.lastname}</td>
-                    <td class = 'age' >${member.age}</td>
+                    <td class = 'age' >${member.age ?? ''}</td>
                     <td>${member.address}</td>
                 </tr>
                `;
         }
 
         placeHolder.innerHTML = out;
+        highlight()
 
-        const highlightBtn = document.querySelector('#highlight')
-        const tableRow = document.querySelectorAll('tr')
-        const tableCell = document.querySelectorAll('td')
-
-
-
-        // HIGHLIGHT THE FAMILY MEMBER THAT OVER 3O YEARS OLD
-        highlightBtn.addEventListener('click', function sortAge() {
-            const age = document.querySelectorAll('.age')
-            for (let i = 0; i < tableRow.length - 1; i++) {
-                if (age[i].innerHTML > 30) {
-                    placeHolder.children[i].style.backgroundColor = '#FFA500'
-                }
-            }
-        })
 
         // SORT BY LAST NAME
         let sortBtn = document.querySelector("#sort")
         sortBtn.addEventListener('click', function sortTable() {
             // placeHolder.innerHTML = out;
-            let table, rows, switching, r, currentRow, nextRow, shouldSwitch;
+            let table, rows, switching, currentRow, nextRow, shouldSwitch;
             table = document.getElementById("myTable");
             switching = true;
             /*Make a loop that will continue until
@@ -52,7 +38,7 @@ fetch("family.json")
                 rows = table.rows;
                 /*Loop through all table rows (except the
                 first, which contains table headers):*/
-                for (r = 1; r < (rows.length - 1); r++) {
+                for (let r = 1; r < (rows.length - 1); r++) {
                     //start by saying there should be no switching:
                     shouldSwitch = false;
                     /*Get the two elements you want to compare,
@@ -103,14 +89,38 @@ fetch("family.json")
             let cell1 = newRow.insertCell(0);
             let cell2 = newRow.insertCell(1);
             let cell3 = newRow.insertCell(2);
-            if (age.innerHTML > 30) {
-                newRow.style.backgroundColor = '#FFA500'
-            }
+
+            let sortBtn = document.querySelector("#sort")
+
             cell1.innerHTML = fullName;
             cell2.innerHTML = age;
+            cell2.classList.add('age');
             cell3.innerHTML = address;
+
+            highlight()
         })
     })
+
+function highlight() {
+    const placeHolder = document.querySelector("#data-output");
+    const highlightBtn = document.querySelector('#highlight')
+    const tableRow = document.querySelectorAll('tr')
+    const tableCell = document.querySelectorAll('td')
+
+
+
+    // HIGHLIGHT THE FAMILY MEMBER THAT OVER 3O YEARS OLD
+    highlightBtn.addEventListener('click', function sortAge() {
+        const age = document.querySelectorAll('.age')
+        console.log(age)
+        for (let i = 1; i < tableRow.length - 1; i++) {
+            console.log(age[i] ?? i)
+            if (age[i].innerHTML > 30) {
+                placeHolder.children[i].style.backgroundColor = '#FFA500'
+            }
+        }
+    })
+}
 
 // function addTableRow() {
 //     let managedTable = document.getElementById('myTable');
